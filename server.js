@@ -1,21 +1,27 @@
 const express = require('express')
 const app = express();
 const mongoose = require('mongoose')
+const {User} = require('./src/models/Users')
+const bodyParser = require("body-parser");
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+const {userRouter} = require('./src/routes/userRoute');
+const swaggerFile  = require('./src/swagger/swagger-output.json');
 
-const users = [];
-const MONGO_URI = 'mongodb+srv://root:1q2w3e4r@cluster0.dtevs03.mongodb.net/?retryWrites=true&w=majority';
+
+const MONGO_URI = 'mongodb+srv://root:1q2w3e4r@cluster0.dtevs03.mongodb.net/SideProject?retryWrites=true&w=majority';
+
 const server = async () =>{
     try{
-        let mongodbConnection = await mongoose.connect(MONGO_URI).then(result => console.log({result}));
-
+        await mongoose.connect(MONGO_URI);
         app.use(express.json());
+        mongoose.set('debug', true);
 
-        app.get("/user", function(req, res){
-            res.send({users: users});
-        })
-        app.post("", function(req,res){
-            res.send({success:true})
-        });
+        //Swagger
+        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile, { explorer: true }));
+
+        app.use('/user', userRouter);
+
         app.listen(3000, function(){
             console.log("server start")
         });
