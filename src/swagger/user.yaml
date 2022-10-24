@@ -1,0 +1,24 @@
+/user:
+  post:
+    tags:
+      - User
+    summary: 유저 생성
+    consumes:
+      - application/json
+    requestBody:
+      x-name: body
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './openapi.yaml#/components/schemas/user'
+          examples:
+            userExample:
+              $ref: './openapi.yaml#/components/examples/userExample'
+    responses:
+      '200':
+        $ref: './openapi.yaml#/components/responses/successResponse'
+      '400':
+        $ref: './openapi.yaml#/components/responses/BadRequest'
+      '500':
+        $ref: './openapi.yaml#/components/responses/InternalServerError'

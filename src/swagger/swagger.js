@@ -1,25 +1,24 @@
-const swaggerAutogen = require('swagger-autogen')({ openapi: '3.0.0' });
+const swaggerUi = require("swagger-ui-express")
+const swaggereJsdoc = require("swagger-jsdoc")
 
 const options = {
-    info: {
-        title: 'This is my API Document',
-        description: '이렇게 스웨거 자동생성이 됩니다.',
-    },
-    servers: [
-        {
-            url: 'http://localhost:3000',
+    swaggerDefinition: {
+        openapi: "3.0.0",
+        info: {
+            version: "1.0.0",
+            title: "몽고디비 node js",
+            description:
+                "프로젝트 설명 Node.js Swaager swagger-jsdoc 방식 RestFul API 클라이언트 UI",
         },
-    ],
-    schemes: ['http'],
-    securityDefinitions: {
-        bearerAuth: {
-            type: 'http',
-            scheme: 'bearer',
-            in: 'header',
-            bearerFormat: 'JWT',
-        },
+        servers: [
+            {
+                url: "http://localhost:3000", // 요청 URL
+                url: "http://112.216.117.126:5032", // 요청 URL
+            },
+        ],
     },
-};
-const outputFile = './src/swagger/swagger-output.json';
-const endpointsFiles = ['./server.js'];
-swaggerAutogen(outputFile, endpointsFiles, options);
+    apis: ["./src/routers/*.js", "../routers/user/*.js"], //Swagger 파일 연동
+}
+const specs = swaggereJsdoc(options)
+
+module.exports = { swaggerUi, specs }
