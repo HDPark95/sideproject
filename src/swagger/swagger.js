@@ -13,8 +13,10 @@ const options = {
         servers: [
             {
                 url: "http://localhost:3000", // 요청 URL
-                url: "http://112.216.117.126:5032", // 요청 URL
             },
+            {
+                url: "http://112.216.117.126:5032", // 요청 URL
+            }
         ],
     },
     apis: ["./src/routers/*.js", "../routers/user/*.js"], //Swagger 파일 연동
